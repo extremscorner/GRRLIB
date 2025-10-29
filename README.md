@@ -136,7 +136,7 @@ To install libgrrlib for GameCube:
 
 ```bash
 cd GRRLIB\GRRLIB
-make PLATFORM=cube clean all install
+make PLATFORM=gamecube clean all install
 ```
 
 ## Using GRRLIB
