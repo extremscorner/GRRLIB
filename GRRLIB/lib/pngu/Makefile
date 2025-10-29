@@ -7,14 +7,17 @@ ifeq ($(strip $(DEVKITPPC)),)
 $(error "Please set DEVKITPPC in your environment. export DEVKITPPC=<path to>devkitPPC")
 endif
 
-include $(DEVKITPPC)/base_rules
-
-# Extra rules for PPC
-export PATH     :=      $(PORTLIBS_PATH)/ppc/bin:$(PATH)
-MACHDEP =  -DGEKKO -mcpu=750 -meabi -mhard-float
+ifeq ($(PLATFORM),gamecube)
+include $(DEVKITPRO)/libogc2/gamecube_rules
 
 # Installation directory
-DESTDIR	:=	$(PORTLIBS_PATH)/ppc
+DESTDIR	:=	$(DEVKITPRO)/libogc2/gamecube
+else
+include $(DEVKITPRO)/libogc2/wii_rules
+
+# Installation directory
+DESTDIR	:=	$(DEVKITPRO)/libogc2/wii
+endif
 
 #---------------------------------------------------------------------------------
 # TARGET is the name of the output

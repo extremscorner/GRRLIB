@@ -11,7 +11,7 @@
 #include <cstdlib>
 #include <wiiuse/wpad.h>
 #include <cmath>
-#include <ogc/lwp_watchdog.h>
+#include <ogc/timesupp.h>
 #include <vector>
 
 // Include Graphics

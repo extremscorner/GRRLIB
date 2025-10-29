@@ -747,7 +747,7 @@ void GRRLIB_SetLightSpot(u8 num, guVector pos, guVector lookat, f32 angAttn0, f3
     GXLightObj lobj;
     guVector lpos = (guVector){ pos.x, pos.y, pos.z };
     guVector ldir = (guVector){ lookat.x-pos.x, lookat.y-pos.y, lookat.z-pos.z };
-    guVecNormalize(&ldir);
+    guVecNormalize(&ldir, &ldir);
 
     GRRLIB_Settings.lights |= (1<<num);
 
