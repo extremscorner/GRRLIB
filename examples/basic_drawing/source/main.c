@@ -6,7 +6,7 @@
 ============================================*/
 #include <grrlib.h>
 
-#include <ogc/lwp_watchdog.h>   // Needed for gettime and ticks_to_millisecs
+#include <ogc/timesupp.h>   // Needed for gettime and ticks_to_millisecs
 #include <stdlib.h>
 #include <wiiuse/wpad.h>
 
@@ -90,7 +90,7 @@ int main() {
     GRRLIB_texImg *tex_BMfont5 = GRRLIB_LoadTexture(BMfont5_png);
     GRRLIB_InitTileSet(tex_BMfont5, 8, 16, 0);
 
-    while(1) {
+    while(SYS_MainLoop()) {
         WPAD_SetVRes(0, 640, 480);
         WPAD_ScanPads();
         const u32 wpaddown = WPAD_ButtonsDown(0);

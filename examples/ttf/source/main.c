@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <wiiuse/wpad.h>
-#include <ogc/lwp_watchdog.h>   // Needed for gettime and ticks_to_millisecs
+#include <ogc/timesupp.h>   // Needed for gettime and ticks_to_millisecs
 
 // Font
 #include "FreeMonoBold_ttf.h"
@@ -55,7 +55,7 @@ int main(int argc, char **argv) {
     GRRLIB_SetBackgroundColour(0x00, 0x00, 0x00, 0xFF);
 
     // Loop forever
-    while(1) {
+    while (SYS_MainLoop()) {
         GRRLIB_DrawImg(0, 0, CopiedImg, 0, 1, 1, 0xFFFFFFFF);
         Letter[0] = charTable[rand() % 459];
         GRRLIB_PrintfTTFW(rand() % rmode->fbWidth - 50,

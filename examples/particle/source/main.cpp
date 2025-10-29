@@ -11,7 +11,7 @@
 #include <cstdlib>
 #include <wiiuse/wpad.h>
 #include <cmath>
-#include <ogc/lwp_watchdog.h>
+#include <ogc/timesupp.h>
 #include <vector>
 
 // Include Graphics
@@ -92,7 +92,7 @@ int main() {
     // Feed the vector with the textures
     TextureList = { GFX_Background, GFX_Crosshair, GFX_Smoke, GFX_Font };
 
-    while (true) {
+    while (SYS_MainLoop()) {
         WPAD_ScanPads();
         u32 WPADKeyDown = WPAD_ButtonsDown(WPAD_CHAN_0);
         WPAD_SetVRes(WPAD_CHAN_0, WinW, WinH);

@@ -26,7 +26,7 @@ THE SOFTWARE.
 #include <ogc/conf.h>
 #include <stdio.h>
 #include <ogc/machine/processor.h>
-#include <dvm.h>
+#include <fat.h>
 
 #define __GRRLIB_CORE__
 #include <grrlib.h>
@@ -69,31 +69,9 @@ int  GRRLIB_Init (void) {
         return -1;
     }
 
-    // Video Mode Correction
-    switch (rmode->viTVMode) {
-        case VI_DEBUG_PAL:  // PAL 50hz 576i
-            //rmode = &TVPal574IntDfScale;
-            rmode = &TVPal528IntDf; // BC ...this is still wrong, but "less bad" for now
-            break;
-        default:
-#ifdef HW_DOL
-            if(VIDEO_HaveComponentCable()) {
-                rmode = &TVNtsc480Prog;
-            }
-#endif
-            break;
-    }
-
-#if defined(HW_RVL)
-    // 16:9 and 4:3 Screen Adjustment for Wii
-    if (CONF_GetAspectRatio() == CONF_ASPECT_16_9) {
-        rmode->viWidth = 678;
-    } else {    // 4:3
-        rmode->viWidth = 672;
-    }
-    // This probably needs to consider PAL
-    rmode->viXOrigin = (VI_MAX_WIDTH_NTSC - rmode->viWidth) / 2;
-#endif
+    // 16:9 and 4:3 Screen Adjustment
+    rmode->viWidth = 704;
+    rmode->viXOrigin = 8;
 
 #if defined(HW_RVL)
      // Patch widescreen on Wii U
@@ -108,21 +86,17 @@ int  GRRLIB_Init (void) {
     VIDEO_Configure(rmode);
 
     // Get some memory to use for a "double buffered" frame buffer
-    if ( !(xfb[0] = MEM_K0_TO_K1(SYS_AllocateFramebuffer(rmode))) ) {
+    if ( !(xfb[0] = SYS_AllocateFramebuffer(rmode)) ) {
         return -1;
     }
-    if ( !(xfb[1] = MEM_K0_TO_K1(SYS_AllocateFramebuffer(rmode))) ) {
+    if ( !(xfb[1] = SYS_AllocateFramebuffer(rmode)) ) {
         return -1;
     }
 
     VIDEO_SetNextFramebuffer(xfb[fb]);  // Choose a frame buffer to start with
 
     VIDEO_Flush();                      // flush the frame to the TV
-    VIDEO_WaitVSync();                  // Wait for the TV to finish updating
-    // If the TV image is interlaced it takes two passes to display the image
-    if (rmode->viTVMode & VI_NON_INTERLACE) {
-        VIDEO_WaitVSync();
-    }
+    VIDEO_WaitForFlush();               // Wait for the TV to finish updating
 
     // The FIFO is the buffer the CPU uses to send commands to the GPU
     if ( !(gp_fifo = memalign(32, DEFAULT_FIFO_SIZE)) ) {
@@ -200,7 +174,7 @@ int  GRRLIB_Init (void) {
     atexit(GRRLIB_Exit);
 
     // Initialise the filing system
-    if (dvmInitDefault() == false) {
+    if (fatInitDefault() == false) {
         error_code = -2;
     }
 
@@ -242,11 +216,11 @@ void  GRRLIB_Exit (void) {
 
     // Free up memory allocated for frame buffers & FIFOs
     if (xfb[0] != NULL) {
-        free(MEM_K1_TO_K0(xfb[0]));
+        free(xfb[0]);
         xfb[0] = NULL;
     }
     if (xfb[1] != NULL) {
-        free(MEM_K1_TO_K0(xfb[1]));
+        free(xfb[1]);
         xfb[1] = NULL;
     }
     if (gp_fifo != NULL) {

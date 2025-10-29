@@ -60,7 +60,7 @@ int main() {
     GRRLIB_SetMidHandle( GFX_Blob[2], true );
 
 
-    while (true) {
+    while (SYS_MainLoop()) {
         WPAD_ScanPads();
         const u32 WPADKeyDown = WPAD_ButtonsDown(WPAD_CHAN_0);
         WPAD_SetVRes(WPAD_CHAN_0, WinW, WinH);

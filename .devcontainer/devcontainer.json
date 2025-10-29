@@ -1,6 +1,6 @@
 {
-    "name": "devkitPPC",
-    "image": "devkitpro/devkitppc:latest",
+    "name": "libogc2",
+    "image": "ghcr.io/extremscorner/libogc2:latest",
     "customizations": {
         "vscode": {
             "extensions": [

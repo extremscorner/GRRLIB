@@ -31,7 +31,7 @@ THE SOFTWARE.
  */
 INLINE
 void  GRRLIB_FillScreen (const u32 color) {
-    GRRLIB_Rectangle(-40.0f, -40.0f, rmode->fbWidth + 80.0f, rmode->xfbHeight + 80.0f, color, true);
+    GRRLIB_Rectangle(-40.0f, -40.0f, rmode->fbWidth + 80.0f, rmode->efbHeight + 80.0f, color, true);
 }
 
 /**

@@ -54,7 +54,7 @@ int main() {
     float siny4 = offset4*pas4;
 
 
-    while (1) {
+    while (SYS_MainLoop()) {
         GRRLIB_FillScreen(0x000000FF);
         PAD_ScanPads();  // Scan the GameCube controllers
         if (PAD_ButtonsDown(0) & PAD_BUTTON_START)  break;

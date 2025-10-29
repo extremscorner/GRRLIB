@@ -25,6 +25,11 @@ THE SOFTWARE.
  * Inline functions for manipulating pixels in textures.
  */
 
+#define _SHIFTL(v, s, w)    \
+    ((u32) (((u32)(v) & ((0x01 << (w)) - 1)) << (s)))
+#define _SHIFTR(v, s, w)    \
+    ((u32)(((u32)(v) >> (s)) & ((0x01 << (w)) - 1)))
+
 /**
  * Return the color value of a pixel from a GRRLIB_texImg.
  * @param x Specifies the x-coordinate of the pixel in the texture.

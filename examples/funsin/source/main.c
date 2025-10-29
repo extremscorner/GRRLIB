@@ -54,7 +54,7 @@ int main() {
     float siny4 = offset4*pas4;
 
 
-    while (1) {
+    while (SYS_MainLoop()) {
         GRRLIB_FillScreen(0x000000FF);
         WPAD_ScanPads();  // Scan the Wii Remotes
         if (WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME)  break;
